@@ -30,6 +30,15 @@ namespace TennisScoreCalculationTests
             Assert.AreEqual(0, score.PlayerYScore.Sets.Length);
         }
 
+        [TestMethod]
+        public void EventRaisedOnPointTest()
+        {
+            Score scoreFromEvent = null;
+            _scoreCalculator.ScoreChanged += score => scoreFromEvent = score;
+            _scoreCalculator.Increment(true);
+            Assert.IsNotNull(scoreFromEvent);
+        }
+
         [DataTestMethod]
         [DynamicData(nameof(TestPointNames_GetData), DynamicDataSourceType.Method)]
         public void TestPointNames(int pointsCount, string expected)
