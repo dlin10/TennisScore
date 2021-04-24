@@ -33,13 +33,34 @@ namespace TennisScoreCalculationTests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(TestPointNames_GetData),DynamicDataSourceType.Method)]
+        [DynamicData(nameof(TestPointNames_GetData), DynamicDataSourceType.Method)]
         public void TestPointNames(int pointsCount, string expected)
         {
             WinPoints(true, pointsCount);
             var score = _scoreCalculator.GetCurrentScore();
             var actual = score.PlayerXScore.Points;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void AdvantagePointNamesTest()
+        {
+            CreateDeuce();
+
+            _scoreCalculator.Increment(true);
+            var score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual("Ad", score.PlayerXScore.Points);
+            Assert.AreEqual("40", score.PlayerYScore.Points);
+
+            _scoreCalculator.Increment(false);
+            score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual("40", score.PlayerXScore.Points);
+            Assert.AreEqual("40", score.PlayerYScore.Points);
+
+            _scoreCalculator.Increment(false);
+            score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual("40", score.PlayerXScore.Points);
+            Assert.AreEqual("Ad", score.PlayerYScore.Points);
         }
 
         private static IEnumerable<object[]> TestPointNames_GetData()
