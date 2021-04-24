@@ -72,7 +72,7 @@ namespace TennisScoreCalculationTests
         [TestMethod]
         public void SetIncrementedTest()
         {
-            WinGameForPlayer(true);
+            WinPointsForPlayer(true, 4);
             var score = _scoreCalculator.GetCurrentScore();
             Assert.AreEqual("0", score.PlayerXScore.Points);
             Assert.AreEqual(1, score.PlayerXScore.Sets.Length);
@@ -84,7 +84,7 @@ namespace TennisScoreCalculationTests
         [TestMethod]
         public void MatchIncrementedTest()
         {
-            WinSetForPlayer(true);
+            WinGamesForPlayer(true, 6);
             var score = _scoreCalculator.GetCurrentScore();
             Assert.AreEqual("0", score.PlayerXScore.Points);
             Assert.AreEqual(2, score.PlayerXScore.Sets.Length);
@@ -93,6 +93,46 @@ namespace TennisScoreCalculationTests
             Assert.AreEqual(0, score.PlayerYScore.Sets[0]);
             Assert.AreEqual(0, score.PlayerXScore.Sets[1]);
             Assert.AreEqual(0, score.PlayerYScore.Sets[1]);
+        }
+
+        [TestMethod]
+        public void TieBreakTest1()
+        {
+            WinGamesForPlayer(true, 5);
+            WinGamesForPlayer(false,6);
+
+            var score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual(1, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(1, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(5, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(6, score.PlayerYScore.Sets[0]);
+
+            WinGamesForPlayer(true, 1);
+            score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual(1, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(1, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(6, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(6, score.PlayerYScore.Sets[0]);
+
+            WinGamesForPlayer(true, 1);
+            score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual(2, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(2, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(7, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(6, score.PlayerYScore.Sets[0]);
+        }
+
+        [TestMethod]
+        public void TieBreakTest2()
+        {
+            WinGamesForPlayer(true, 5);
+            WinGamesForPlayer(false, 7);
+
+            var score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual(2, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(2, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(5, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(7, score.PlayerYScore.Sets[0]);
         }
 
         private static IEnumerable<object[]> TestPointNames_GetData()
@@ -111,11 +151,6 @@ namespace TennisScoreCalculationTests
             }
         }
 
-        private void WinGameForPlayer(bool playerX)
-        {
-            WinPointsForPlayer(playerX, 4);
-        }
-
         private void CreateDeuce()
         {
             WinPointsForPlayer(true, 3);
@@ -126,13 +161,8 @@ namespace TennisScoreCalculationTests
         {
             for (int i = 0; i < count; i++)
             {
-                WinGameForPlayer(playerX);
+                WinPointsForPlayer(playerX, 4);
             }
-        }
-
-        private void WinSetForPlayer(bool playerX)
-        {
-            WinGamesForPlayer(playerX, 6);
         }
     }
 }
