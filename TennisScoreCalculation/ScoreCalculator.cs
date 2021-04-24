@@ -21,6 +21,10 @@ namespace TennisScoreCalculation
 
         public event Action<Score> ScoreChanged;
 
+        /// <summary>
+        /// Should be called on each point win
+        /// </summary>
+        /// <param name="playerXGotPoint">True if player X wins the point, False if player Y wins the point</param>
         public void Increment(bool playerXGotPoint)
         {
             if (IncrementPoints(playerXGotPoint))
@@ -35,7 +39,10 @@ namespace TennisScoreCalculation
             ScoreChanged?.Invoke(GetCurrentScore());
         }
 
-
+        /// <summary>
+        /// Get current score
+        /// </summary>
+        /// <returns></returns>
         public Score GetCurrentScore()
         {
             var score = new Score();
