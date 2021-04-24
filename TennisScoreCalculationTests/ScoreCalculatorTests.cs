@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TennisScoreCalculation;
 
@@ -26,8 +25,8 @@ namespace TennisScoreCalculationTests
             Assert.IsNotNull(score.PlayerYScore);
             Assert.AreEqual("0", score.PlayerXScore.Points);
             Assert.AreEqual("0", score.PlayerYScore.Points);
-            Assert.AreEqual(0,score.PlayerXScore.Sets.Length);
-            Assert.AreEqual(0, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(1,score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(1, score.PlayerYScore.Sets.Length);
         }
 
         [TestMethod]
@@ -88,15 +87,10 @@ namespace TennisScoreCalculationTests
             WinSetForPlayer(true);
             var score = _scoreCalculator.GetCurrentScore();
             Assert.AreEqual("0", score.PlayerXScore.Points);
-            Assert.AreEqual(1, score.PlayerXScore.Sets.Length);
-            Assert.AreEqual(1, score.PlayerYScore.Sets.Length);
-            Assert.AreEqual(6, score.PlayerXScore.Sets[0]);
-            Assert.AreEqual(0, score.PlayerYScore.Sets[0]);
-
-            _scoreCalculator.Increment(true);
-            score = _scoreCalculator.GetCurrentScore();
             Assert.AreEqual(2, score.PlayerXScore.Sets.Length);
             Assert.AreEqual(2, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(6, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(0, score.PlayerYScore.Sets[0]);
             Assert.AreEqual(0, score.PlayerXScore.Sets[1]);
             Assert.AreEqual(0, score.PlayerYScore.Sets[1]);
         }
