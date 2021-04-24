@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TennisScoreCalculation;
 
@@ -61,6 +59,16 @@ namespace TennisScoreCalculationTests
             score = _scoreCalculator.GetCurrentScore();
             Assert.AreEqual("40", score.PlayerXScore.Points);
             Assert.AreEqual("Ad", score.PlayerYScore.Points);
+        }
+
+        [TestMethod]
+        public void SetIncrementedTest()
+        {
+            WinGameForPlayer(true);
+            var score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual("0", score.PlayerXScore.Points);
+            Assert.AreEqual(1, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(0, score.PlayerYScore.Sets[0]);
         }
 
         private static IEnumerable<object[]> TestPointNames_GetData()
