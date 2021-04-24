@@ -19,6 +19,8 @@ namespace TennisScoreCalculation
             _sets = new List<Point>();
         }
 
+        public event Action<Score> ScoreChanged;
+
         public void Increment(bool playerXGotPoint)
         {
             throw new NotImplementedException();
