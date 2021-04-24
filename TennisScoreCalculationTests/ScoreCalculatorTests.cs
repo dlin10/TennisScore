@@ -34,7 +34,7 @@ namespace TennisScoreCalculationTests
         [DynamicData(nameof(TestPointNames_GetData), DynamicDataSourceType.Method)]
         public void TestPointNames(int pointsCount, string expected)
         {
-            WinPoints(true, pointsCount);
+            WinPointsForPlayer(true, pointsCount);
             var score = _scoreCalculator.GetCurrentScore();
             var actual = score.PlayerXScore.Points;
             Assert.AreEqual(expected, actual);
@@ -67,8 +67,29 @@ namespace TennisScoreCalculationTests
             WinGameForPlayer(true);
             var score = _scoreCalculator.GetCurrentScore();
             Assert.AreEqual("0", score.PlayerXScore.Points);
+            Assert.AreEqual(1, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(1, score.PlayerYScore.Sets.Length);
             Assert.AreEqual(1, score.PlayerXScore.Sets[0]);
             Assert.AreEqual(0, score.PlayerYScore.Sets[0]);
+        }
+
+        [TestMethod]
+        public void MatchIncrementedTest()
+        {
+            WinSetForPlayer(true);
+            var score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual("0", score.PlayerXScore.Points);
+            Assert.AreEqual(1, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(1, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(6, score.PlayerXScore.Sets[0]);
+            Assert.AreEqual(0, score.PlayerYScore.Sets[0]);
+
+            _scoreCalculator.Increment(true);
+            score = _scoreCalculator.GetCurrentScore();
+            Assert.AreEqual(2, score.PlayerXScore.Sets.Length);
+            Assert.AreEqual(2, score.PlayerYScore.Sets.Length);
+            Assert.AreEqual(0, score.PlayerXScore.Sets[1]);
+            Assert.AreEqual(0, score.PlayerYScore.Sets[1]);
         }
 
         private static IEnumerable<object[]> TestPointNames_GetData()
@@ -79,23 +100,36 @@ namespace TennisScoreCalculationTests
             yield return new object[] { 3, "40" };
         }
 
-        private void WinPoints(bool playerX, int count)
+        private void WinPointsForPlayer(bool playerX, int pointsCount)
         {
-            foreach (var b in Enumerable.Repeat(playerX, count))
+            for (int i = 0; i < pointsCount; i++)
             {
-                _scoreCalculator.Increment(b);
+                _scoreCalculator.Increment(playerX);
             }
         }
 
         private void WinGameForPlayer(bool playerX)
         {
-            WinPoints(playerX, 4);
+            WinPointsForPlayer(playerX, 4);
         }
 
         private void CreateDeuce()
         {
-            WinPoints(true, 3);
-            WinPoints(false, 3);
+            WinPointsForPlayer(true, 3);
+            WinPointsForPlayer(false, 3);
+        }
+
+        private void WinGamesForPlayer(bool playerX, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                WinGameForPlayer(playerX);
+            }
+        }
+
+        private void WinSetForPlayer(bool playerX)
+        {
+            WinGamesForPlayer(playerX, 6);
         }
     }
 }
