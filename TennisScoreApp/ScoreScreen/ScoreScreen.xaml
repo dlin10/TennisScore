@@ -3,10 +3,91 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TennisScoreApp"
+        xmlns:local="clr-namespace:TennisScoreApp.ScoreScreen"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type= local:ScoreScreenViewModel}"
         Title="ScoreScreen" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="ScoreBorder" TargetType="Border">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style x:Key="ScoreBlock" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Yellow"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="48"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center">Sets</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Points</TextBlock>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="24"
+                   Text="{Binding Score.PlayerXScore.PlayerName}"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="24"
+                   Text="{Binding Score.PlayerYScore.PlayerName}"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">1</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">2</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center">3</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">4</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center">5</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">VS</TextBlock>
+
+        <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerXScore.Points}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerYScore.Points}"/>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerXScore.Sets[0]}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerYScore.Sets[0]}"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="3" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerXScore.Sets[1]}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="3" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerYScore.Sets[1]}"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="4" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerXScore.Sets[2]}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="4" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerYScore.Sets[2]}"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="5" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerXScore.Sets[3]}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="5" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerYScore.Sets[3]}"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="6" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerXScore.Sets[4]}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="6" Style="{StaticResource ScoreBorder}">
+            <TextBlock Style="{StaticResource ScoreBlock}" Text="{Binding Score.PlayerYScore.Sets[4]}"/>
+        </Border>
     </Grid>
 </Window>
